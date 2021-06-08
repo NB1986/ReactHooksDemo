@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
+
+function ExampleChild() {
+
+  useEffect(() => {
+    console.log('Subscribing...');
+
+    return () => {
+      console.log('Unsubscribing...');
+    }
+  }, []);
+
+  return (
+    <h2> I am the example child.</h2>
+  );
+}
 
 function App() {
+  const [color, setColor] = useState('red');
+
+  const [msg, setMsg] = useState('Initial Message');
+
+  // useEffect(() => {
+  //   console.log(msg);
+  // }, [msg, color]);
+
+  // useEffect(() => {
+  //   console.log('mount');
+  // }, [])
+
+  function changeColor() {
+    color === 'red' ? setColor('blue') : setColor('red');
+  } 
+    
+  function changeMsg() {
+    setMsg('Super Secret Message');
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1 style={{background: color}}>React Hooks Demo</h1>
+      <h1>{msg}</h1>
+      <button onClick={ changeColor }>Click Me</button>
+      <button onClick={ changeMsg }>Click Me</button>
+      { msg === 'Initial Message' && <ExampleChild /> }
     </div>
   );
 }
